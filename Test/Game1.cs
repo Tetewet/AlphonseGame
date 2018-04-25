@@ -386,8 +386,8 @@ namespace Test
                 }
                 else
                 {
-                    //player.MouvementBlocked = true;
-                    pPlayerRectangle != playerRectTemp;
+                    player.MouvementBlocked = true;
+                    //playerRectTemp = pPlayerRectangle;
                 }
             });
         }
