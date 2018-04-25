@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/theog/source/repos/Test/Test/Content/Alphonse-left.png</SourceFile>
-  <SourceTime>2018-01-31T12:16:03.0493336-05:00</SourceTime>
-  <DestFile>C:/Users/theog/source/repos/Test/Test/Content/bin/DesktopGL/Alphonse-left.xnb</DestFile>
-  <DestTime>2018-02-27T23:24:34.5645158-05:00</DestTime>
+  <SourceFile>C:/Users/felix/Desktop/temp/AlphonseGame2/AlphonseGame/Test/Content/Alphonse-left.png</SourceFile>
+  <SourceTime>2018-04-25T16:55:14.4767064-04:00</SourceTime>
+  <DestFile>C:/Users/felix/Desktop/temp/AlphonseGame2/AlphonseGame/Test/Content/bin/DesktopGL/Alphonse-left.xnb</DestFile>
+  <DestTime>2018-04-25T17:12:27.8894025-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T10:05:36-05:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

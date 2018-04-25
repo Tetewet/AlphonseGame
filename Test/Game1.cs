@@ -125,7 +125,7 @@ namespace Test
             Texture2D rockTexture = Content.Load<Texture2D>("rock_tile");
             Texture2D sandTexture = Content.Load<Texture2D>("sand_tile");
             Texture2D forestTexture = Content.Load<Texture2D>("forest_tile");
-            string[] ligneMap = System.IO.File.ReadAllLines(@"C: \Users\theog\source\repos\Test\Test\Content\maplevel1.txt");
+            string[] ligneMap = System.IO.File.ReadAllLines(@"Content\maplevel1.txt");
             for (int x = 0; x < ligneMap.Length; x++)
             {
                 for (int y = 0; y < ligneMap[x].Length; y++)

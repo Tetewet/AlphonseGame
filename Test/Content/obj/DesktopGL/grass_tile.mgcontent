@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/theog/source/repos/Test/Test/Content/grass_tile.png</SourceFile>
-  <SourceTime>2018-04-04T15:13:11.0172022-04:00</SourceTime>
-  <DestFile>C:/Users/theog/source/repos/Test/Test/Content/bin/DesktopGL/grass_tile.xnb</DestFile>
-  <DestTime>2018-04-04T15:45:21.3333956-04:00</DestTime>
+  <SourceFile>C:/Users/felix/Desktop/temp/AlphonseGame2/AlphonseGame/Test/Content/grass_tile.png</SourceFile>
+  <SourceTime>2018-04-25T16:55:14.5057841-04:00</SourceTime>
+  <DestFile>C:/Users/felix/Desktop/temp/AlphonseGame2/AlphonseGame/Test/Content/bin/DesktopGL/grass_tile.xnb</DestFile>
+  <DestTime>2018-04-25T17:12:27.9230057-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T10:05:36-05:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

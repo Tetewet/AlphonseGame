@@ -254,3 +254,6 @@
 /processorParam:TextureFormat=Color
 /build:newAlphonse-back.png
 
+#begin maplevel1.txt
+/copy:maplevel1.txt
+
