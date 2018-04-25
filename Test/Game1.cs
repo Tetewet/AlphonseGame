@@ -138,7 +138,7 @@ namespace Test
                     }
                     if (ligneMap[x].Substring(y,1) == "W")
                     {
-                        //mapLevel1.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32)));
+                        mapLevel1.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32)));
                         waterTiles.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32)));
                     }
                     if (ligneMap[x].Substring(y, 1) == "R")
@@ -230,9 +230,9 @@ namespace Test
             float cameraDelta = (float)(CameraSpeed * gameTime.ElapsedGameTime.TotalSeconds);
             if (kstate.IsKeyDown(Keys.Up) || kstate.IsKeyDown(Keys.W))
             {
-                cameraMatrix *= Matrix.CreateTranslation(0, cameraDelta, 0);
                 if (player.MouvementBlocked == false)
                 {
+                    cameraMatrix *= Matrix.CreateTranslation(0, cameraDelta, 0);
                     player.Position.Y -= speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
                 //rectangleTemp.Y -= (int)speedG * (int)gameTime.ElapsedGameTime.TotalSeconds;
@@ -241,18 +241,27 @@ namespace Test
             }
             if (kstate.IsKeyDown(Keys.Down) || kstate.IsKeyDown(Keys.S))
             {
-                cameraMatrix *= Matrix.CreateTranslation(0, -cameraDelta, 0);
-                player.Position.Y += speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (player.MouvementBlocked == false)
+                {
+                    cameraMatrix *= Matrix.CreateTranslation(0, -cameraDelta, 0);
+                    player.Position.Y += speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
             }
             if (kstate.IsKeyDown(Keys.Left) || kstate.IsKeyDown(Keys.A))
             {
-                cameraMatrix *= Matrix.CreateTranslation(cameraDelta, 0, 0);
-                player.Position.X -= speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (player.MouvementBlocked == false)
+                {
+                    cameraMatrix *= Matrix.CreateTranslation(cameraDelta, 0, 0);
+                    player.Position.X -= speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
             }
             if (kstate.IsKeyDown(Keys.Right) || kstate.IsKeyDown(Keys.D))
             {
-                cameraMatrix *= Matrix.CreateTranslation(-cameraDelta, 0, 0);
-                player.Position.X += speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (player.MouvementBlocked == false)
+                {
+                    cameraMatrix *= Matrix.CreateTranslation(-cameraDelta, 0, 0);
+                    player.Position.X += speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
             }
 
             //projectiles 
@@ -368,12 +377,18 @@ namespace Test
         {
             waterTiles.ForEach(w =>
             {
+                Rectangle playerRectTemp = pPlayerRectangle;
                 waterRectangle = new Rectangle((int)w.Position.X, (int)w.Position.Y, w.textureTuile.Width, w.textureTuile.Height);
-                if (pPlayerRectangle.Intersects(waterRectangle))
+                if (!playerRectTemp.Intersects(waterRectangle))
                 {
-                    player.MouvementBlocked = true;
+                    player.MouvementBlocked = false;
+                    pPlayerRectangle = playerRectTemp;
                 }
-                else player.MouvementBlocked = false;
+                else
+                {
+                    //player.MouvementBlocked = true;
+                    pPlayerRectangle != playerRectTemp;
+                }
             });
         }
 
@@ -392,46 +407,42 @@ namespace Test
             {
                 spriteBatch.Draw(p.textureTuile, p.Position, Color.White);
             }
-            foreach (var w in waterTiles)
+
+            if (player.Active == true)
             {
-                spriteBatch.Draw(w.textureTuile, w.Position, Color.White);
-                if (player.Active == true)
+                player.Draw(spriteBatch);
+                if (kstate.IsKeyDown(Keys.Up))
                 {
-                    player.Draw(spriteBatch);
-                    if (kstate.IsKeyDown(Keys.Up))
-                    {
-                        player.PlayerTexture = playerTextureback;
-                    }
-                    if (kstate.IsKeyDown(Keys.Down))
-                    {
-                        player.PlayerTexture = playerTexturefront;
-                    }
-                    if (kstate.IsKeyDown(Keys.Left))
-                    {
-                        player.PlayerTexture = playerTextureleft;
-                    }
-                    if (kstate.IsKeyDown(Keys.Right))
-                    {
-                        player.PlayerTexture = playerTextureright;
-                    }
+                    player.PlayerTexture = playerTextureback;
+                }
+                if (kstate.IsKeyDown(Keys.Down))
+                {
+                    player.PlayerTexture = playerTexturefront;
+                }
+                if (kstate.IsKeyDown(Keys.Left))
+                {
+                    player.PlayerTexture = playerTextureleft;
+                }
+                if (kstate.IsKeyDown(Keys.Right))
+                {
+                    player.PlayerTexture = playerTextureright;
+                }
 
-                    for (int i = 0; i < ennemis.Count; i++)
-                    {
-                        ennemis[i].Draw(spriteBatch);
-                    }
+                for (int i = 0; i < ennemis.Count; i++)
+                {
+                    ennemis[i].Draw(spriteBatch);
+                }
 
-                    foreach (var t in objets)
-                    {
-                        t.Draw(spriteBatch);
-                    }
+                foreach (var t in objets)
+                {
+                    t.Draw(spriteBatch);
+                }
 
-                    foreach (var proj in projectiles)
-                    {
-                        proj.Draw(spriteBatch);
-                    }
+                foreach (var proj in projectiles)
+                {
+                    proj.Draw(spriteBatch);
                 }
             }
-
             spriteBatch.End();
             base.Draw(gameTime);
         }
