@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Profile>Reach</Profile>
+  <Platform>DesktopGL</Platform>
+  <Config />
+  <SourceFiles>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/Alphonse.png</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/Alphonse-left.png</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/explode.png</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/Alphonse-anim-left.png</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/projectile.png</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/grass_tile.png</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/water_tile.png</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/forest_tile.png</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/sand_tile.png</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/rock_tile.png</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/ennemi.png</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/ennemi-bird.png</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/Alphonse-anim-right.gif</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/Alphonse-anim-right clone.png</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/fromage.png</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/Alphonse-right.png</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/newAlphonse.png</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/newAlphonse-front.png</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/newAlphonse-left.png</File>
+    <File>C:/Users/theog/source/repos/Test/Test/Content/newAlphonse-back.png</File>
+  </SourceFiles>
+</SourceFileCollection>
