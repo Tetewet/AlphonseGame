@@ -8,7 +8,7 @@ using Test;
 namespace Test
 {
     /// <summary>
-    /// This is the main type for your game.
+    /// This is the main type for your game. 
     /// </summary>
     public class Game1 : Game
     {
@@ -166,7 +166,7 @@ namespace Test
             playerTextureleft = Content.Load<Texture2D>("newAlphonse-left");
             playerTextureright = Content.Load<Texture2D>("newAlphonse");
             //Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.X + GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Y + GraphicsDevice.Viewport.Height / 2);
-            Vector2 playerPosition = new Vector2(128, 128);
+            Rectangle playerPosition = new Rectangle(128, 128, playerTexture.Width - 10, playerTexture.Height - 10);
             player.Initialize(playerTexture, playerPosition);
             ennemiTexture = Content.Load<Texture2D>("ennemi");
             ennemiTextureTemp = Content.Load<Texture2D>("ennemi-bird");
@@ -209,7 +209,7 @@ namespace Test
                 }
                 UpdatePlayer(gameTime);
                 UpdateEnnemis(gameTime);
-                //UpdateCollisions(gameTime);
+                UpdateCollisions(gameTime);
                 //foreach (var obj in objets)
                 //{
                 //    obj.Update(gameTime, playerRectangle);
@@ -225,33 +225,31 @@ namespace Test
         public void UpdatePlayer(GameTime gameTime)
         {
             // rajouter les collisions 
-            UpdateCollisions(gameTime); 
+            //UpdateCollisions(gameTime); 
             Rectangle rectangleTemp = playerRectangle;
             float cameraDelta = (float)(CameraSpeed * gameTime.ElapsedGameTime.TotalSeconds);
             if (kstate.IsKeyDown(Keys.Up) || kstate.IsKeyDown(Keys.W))
             {
                 cameraMatrix *= Matrix.CreateTranslation(0, cameraDelta, 0);
-                rectangleTemp.Y -= (int)speedG * (int)gameTime.ElapsedGameTime.TotalSeconds;
+                player.Position.Y -= (int)speedG * (int)gameTime.ElapsedGameTime.TotalSeconds;
+                //rectangleTemp.Y -= (int)speedG * (int)gameTime.ElapsedGameTime.TotalSeconds;
+                //playerRectangle = rectangleTemp;
 
-                if (!rectangleTemp.Intersects(waterRectangle))
-                {
-                    player.Position.Y -= speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                }
             }
             if (kstate.IsKeyDown(Keys.Down) || kstate.IsKeyDown(Keys.S))
             {
                 cameraMatrix *= Matrix.CreateTranslation(0, -cameraDelta, 0);
-                player.Position.Y += speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                player.Position.Y += (int)speedG * (int)gameTime.ElapsedGameTime.TotalSeconds;
             }
             if (kstate.IsKeyDown(Keys.Left) || kstate.IsKeyDown(Keys.A))
             {
                 cameraMatrix *= Matrix.CreateTranslation(cameraDelta, 0, 0);
-                player.Position.X -= speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                player.Position.X -= (int)speedG * (int)gameTime.ElapsedGameTime.TotalSeconds;
             }
             if (kstate.IsKeyDown(Keys.Right) || kstate.IsKeyDown(Keys.D))
             {
                 cameraMatrix *= Matrix.CreateTranslation(-cameraDelta, 0, 0);
-                player.Position.X += speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                player.Position.X += (int)speedG * (int)gameTime.ElapsedGameTime.TotalSeconds;
             }
 
             //projectiles 
@@ -322,33 +320,38 @@ namespace Test
         var rect2 = { x:20, y:10, width:10, height:10 };
         if (rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x && rect1.y<rect2.y + rect2.height && rect1.height + rect1.y> rect2.y)
             ;*/
-            
-            playerRectangle = new Rectangle((int)player.Position.X, (int)player.Position.Y, player.Width-10, player.Height-10);
+
+            playerRectangle = new Rectangle((int)player.Position.X, (int)player.Position.Y, player.Width - 10, player.Height - 10);
             waterTiles.ForEach(w =>
             {
                 waterRectangle = new Rectangle((int)w.Position.X, (int)w.Position.Y, w.textureTuile.Width, w.textureTuile.Height);
-            });
-            ennemis.ForEach(e =>
-            {
-                ennemiRectangle = new Rectangle((int)e.Position.X, (int)e.Position.Y, e.Width, e.Height);
-                projectiles.ForEach(p =>
+                if (!playerRectangle.Intersects(waterRectangle))
                 {
-                    projectileRectangle = new Rectangle((int)p.Position.X, (int)p.Position.Y, p.ProjectileWidth, p.ProjectileHeight);
-                    if (projectileRectangle.Intersects(ennemiRectangle))
+                    //UpdatePlayer(gameTime);
+                }
+
+                ennemis.ForEach(e =>
+                {
+                    ennemiRectangle = new Rectangle((int)e.Position.X, (int)e.Position.Y, e.Width, e.Height);
+                    projectiles.ForEach(p =>
                     {
-                        e.Health -= p.Damage;
-                        p.Active = false;
+                        projectileRectangle = new Rectangle((int)p.Position.X, (int)p.Position.Y, p.ProjectileWidth, p.ProjectileHeight);
+                        if (projectileRectangle.Intersects(ennemiRectangle))
+                        {
+                            e.Health -= p.Damage;
+                            p.Active = false;
+                        }
+                    });
+                    if (playerRectangle.Intersects(ennemiRectangle))
+                    {
+                        player.Health -= e.Damage;
+                        e.Health = 0;
+                        if (player.Health <= 0)
+                        {
+                            player.Active = false;
+                        }
                     }
                 });
-                if (playerRectangle.Intersects(ennemiRectangle))
-                {
-                    player.Health -= e.Damage;
-                    e.Health = 0;
-                    if (player.Health <= 0)
-                    {
-                        player.Active = false;
-                    }
-                }
             });
             foreach (var o in objets)
             {

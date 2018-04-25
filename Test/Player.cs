@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+ 
 namespace Test
 {
     class Player
     {
         public Texture2D PlayerTexture; //texture du joueur
-        public Vector2 Position; //position du joueur
+        public Rectangle Position; //position du joueur
         public bool Active; //etat du joueur
         public int Health;
         public int Width
@@ -24,7 +24,7 @@ namespace Test
             get { return PlayerTexture.Height; }
         }
 
-        public void Initialize(Texture2D texture, Vector2 position)
+        public void Initialize(Texture2D texture, Rectangle position)
         {
             PlayerTexture = texture;
             Position = position;

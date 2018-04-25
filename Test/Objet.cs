@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Test
-{
+{ 
     class Objet
     {
         static int maxObjet = 10;

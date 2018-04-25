@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/theog/source/repos/Test/Test/Content/ennemi-bird.png</SourceFile>
+  <SourceFile>C:/Users/theog/source/repos/AlphonseGame/Test/Content/ennemi-bird.png</SourceFile>
   <SourceTime>2018-04-11T09:18:38.1633739-04:00</SourceTime>
-  <DestFile>C:/Users/theog/source/repos/Test/Test/Content/bin/DesktopGL/ennemi-bird.xnb</DestFile>
-  <DestTime>2018-04-11T09:19:28.0213887-04:00</DestTime>
+  <DestFile>C:/Users/theog/source/repos/AlphonseGame/Test/Content/bin/DesktopGL/ennemi-bird.xnb</DestFile>
+  <DestTime>2018-04-25T13:25:45.2399717-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T10:05:36-05:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

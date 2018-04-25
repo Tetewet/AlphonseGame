@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Test
-{
+{ 
     class Sand_Tile : TuileBase
     {
         public new Texture2D textureTuile;

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Test
+namespace Test 
 {
     class Projectile
     {
         public Texture2D projectileTexture;
         float projectileVitesse = 10f;
-        public Vector2 Position;
+        public Rectangle Position;
         public int Damage = 25;
         public bool Active;
         public int Range = 100;
@@ -25,7 +25,7 @@ namespace Test
             get { return projectileTexture.Height; }
         }
 
-        public void Initialize(Texture2D sprites, Vector2 position)
+        public void Initialize(Texture2D sprites, Rectangle position)
         {
             projectileTexture = sprites;
             Position = position;
@@ -34,7 +34,7 @@ namespace Test
 
         public void Update(GameTime gameTime)
         {
-            Position.X += projectileVitesse;
+            Position.X += (int)projectileVitesse;
         }
 
         public void Draw(SpriteBatch spriteBatch)

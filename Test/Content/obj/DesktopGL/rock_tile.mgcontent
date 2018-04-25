@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/theog/source/repos/Test/Test/Content/rock_tile.png</SourceFile>
+  <SourceFile>C:/Users/theog/source/repos/AlphonseGame/Test/Content/rock_tile.png</SourceFile>
   <SourceTime>2018-04-08T18:24:59.7017139-04:00</SourceTime>
-  <DestFile>C:/Users/theog/source/repos/Test/Test/Content/bin/DesktopGL/rock_tile.xnb</DestFile>
-  <DestTime>2018-04-08T18:33:53.295659-04:00</DestTime>
+  <DestFile>C:/Users/theog/source/repos/AlphonseGame/Test/Content/bin/DesktopGL/rock_tile.xnb</DestFile>
+  <DestTime>2018-04-25T13:25:45.2299374-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T10:05:36-05:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
