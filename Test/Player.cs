@@ -12,7 +12,7 @@ namespace Test
     class Player
     {
         public Texture2D PlayerTexture; //texture du joueur
-        public Rectangle Position; //position du joueur
+        public Vector2 Position; //position du joueur
         public bool Active; //etat du joueur
         public int Health;
         public int Width
@@ -24,7 +24,9 @@ namespace Test
             get { return PlayerTexture.Height; }
         }
 
-        public void Initialize(Texture2D texture, Rectangle position)
+        public bool MouvementBlocked { get; set; }
+
+        public void Initialize(Texture2D texture, Vector2 position)
         {
             PlayerTexture = texture;
             Position = position;
@@ -43,5 +45,7 @@ namespace Test
         {
             spriteBatch.Draw(PlayerTexture, Position, Color.White);
         }
+
+        
     }
 }

@@ -255,7 +255,5 @@
 /build:newAlphonse-back.png
 
 #begin maplevel1.txt
-/importer:
-/processor:
-/build:maplevel1.txt
+/copy:maplevel1.txt
 

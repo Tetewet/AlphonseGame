@@ -139,7 +139,7 @@ namespace Test
                     if (ligneMap[x].Substring(y,1) == "W")
                     {
                         //mapLevel1.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32)));
-                        waterTiles.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32), waterRectangle = new Rectangle(y * 32, x * 32, waterTexture.Width, waterTexture.Height)));
+                        waterTiles.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32)));
                     }
                     if (ligneMap[x].Substring(y, 1) == "R")
                     {
@@ -166,7 +166,7 @@ namespace Test
             playerTextureleft = Content.Load<Texture2D>("newAlphonse-left");
             playerTextureright = Content.Load<Texture2D>("newAlphonse");
             //Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.X + GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Y + GraphicsDevice.Viewport.Height / 2);
-            Rectangle playerPosition = new Rectangle(128, 128, playerTexture.Width - 10, playerTexture.Height - 10);
+            Vector2 playerPosition = new Vector2(128, 128);
             player.Initialize(playerTexture, playerPosition);
             ennemiTexture = Content.Load<Texture2D>("ennemi");
             ennemiTextureTemp = Content.Load<Texture2D>("ennemi-bird");
@@ -226,12 +226,15 @@ namespace Test
         {
             // rajouter les collisions 
             //UpdateCollisions(gameTime); 
-            Rectangle rectangleTemp = playerRectangle;
+            //Rectangle rectangleTemp = playerRectangle;
             float cameraDelta = (float)(CameraSpeed * gameTime.ElapsedGameTime.TotalSeconds);
             if (kstate.IsKeyDown(Keys.Up) || kstate.IsKeyDown(Keys.W))
             {
                 cameraMatrix *= Matrix.CreateTranslation(0, cameraDelta, 0);
-                player.Position.Y -= (int)speedG * (int)gameTime.ElapsedGameTime.TotalSeconds;
+                if (player.MouvementBlocked == false)
+                {
+                    player.Position.Y -= speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
                 //rectangleTemp.Y -= (int)speedG * (int)gameTime.ElapsedGameTime.TotalSeconds;
                 //playerRectangle = rectangleTemp;
 
@@ -239,17 +242,17 @@ namespace Test
             if (kstate.IsKeyDown(Keys.Down) || kstate.IsKeyDown(Keys.S))
             {
                 cameraMatrix *= Matrix.CreateTranslation(0, -cameraDelta, 0);
-                player.Position.Y += (int)speedG * (int)gameTime.ElapsedGameTime.TotalSeconds;
+                player.Position.Y += speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
             if (kstate.IsKeyDown(Keys.Left) || kstate.IsKeyDown(Keys.A))
             {
                 cameraMatrix *= Matrix.CreateTranslation(cameraDelta, 0, 0);
-                player.Position.X -= (int)speedG * (int)gameTime.ElapsedGameTime.TotalSeconds;
+                player.Position.X -= speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
             if (kstate.IsKeyDown(Keys.Right) || kstate.IsKeyDown(Keys.D))
             {
                 cameraMatrix *= Matrix.CreateTranslation(-cameraDelta, 0, 0);
-                player.Position.X += (int)speedG * (int)gameTime.ElapsedGameTime.TotalSeconds;
+                player.Position.X += speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
 
             //projectiles 
@@ -275,6 +278,7 @@ namespace Test
         {
             Projectile projectile = new Projectile();
             var projectilePosition = player.Position;
+            //position de depart du projectile
             projectilePosition.X += player.PlayerTexture.Width;
             projectilePosition.Y += player.PlayerTexture.Height;
             projectile.Initialize(projectileTexture, projectilePosition);
@@ -322,50 +326,54 @@ namespace Test
             ;*/
 
             playerRectangle = new Rectangle((int)player.Position.X, (int)player.Position.Y, player.Width - 10, player.Height - 10);
-            waterTiles.ForEach(w =>
-            {
-                waterRectangle = new Rectangle((int)w.Position.X, (int)w.Position.Y, w.textureTuile.Width, w.textureTuile.Height);
-                if (!playerRectangle.Intersects(waterRectangle))
-                {
-                    //UpdatePlayer(gameTime);
-                }
+            //waterTiles.ForEach(w =>
+            //{
+            //    waterRectangle.Add(new Rectangle((int)w.Position.X, (int)w.Position.Y, w.textureTuile.Width, w.textureTuile.Height));
+            //    if (!playerRectangle.Intersects(w.waterRectangle))
+            //    {
+            //        player.MouvementBlocked = true;
+            //    }
+            CollisionsMap(gameTime, playerRectangle);
 
-                ennemis.ForEach(e =>
+            ennemis.ForEach(e =>
+            {
+                ennemiRectangle = new Rectangle((int)e.Position.X, (int)e.Position.Y, e.Width, e.Height);
+                projectiles.ForEach(p =>
                 {
-                    ennemiRectangle = new Rectangle((int)e.Position.X, (int)e.Position.Y, e.Width, e.Height);
-                    projectiles.ForEach(p =>
+                    projectileRectangle = new Rectangle((int)p.Position.X, (int)p.Position.Y, p.ProjectileWidth, p.ProjectileHeight);
+                    if (projectileRectangle.Intersects(ennemiRectangle))
                     {
-                        projectileRectangle = new Rectangle((int)p.Position.X, (int)p.Position.Y, p.ProjectileWidth, p.ProjectileHeight);
-                        if (projectileRectangle.Intersects(ennemiRectangle))
-                        {
-                            e.Health -= p.Damage;
-                            p.Active = false;
-                        }
-                    });
-                    if (playerRectangle.Intersects(ennemiRectangle))
-                    {
-                        player.Health -= e.Damage;
-                        e.Health = 0;
-                        if (player.Health <= 0)
-                        {
-                            player.Active = false;
-                        }
+                        e.Health -= p.Damage;
+                        p.Active = false;
                     }
                 });
+                if (playerRectangle.Intersects(ennemiRectangle))
+                {
+                    player.Health -= e.Damage;
+                    e.Health = 0;
+                    if (player.Health <= 0)
+                    {
+                        player.Active = false;
+                    }
+                }
             });
+            //});
             foreach (var o in objets)
             {
                 o.Update(gameTime, playerRectangle);
             }
-            CollisionsMap(gameTime);
         }
         //essayer de faire les collisions avec la map
-        public void CollisionsMap(GameTime gameTime)
+        public void CollisionsMap(GameTime gameTime, Rectangle pPlayerRectangle)
         {
             waterTiles.ForEach(w =>
             {
                 waterRectangle = new Rectangle((int)w.Position.X, (int)w.Position.Y, w.textureTuile.Width, w.textureTuile.Height);
-
+                if (pPlayerRectangle.Intersects(waterRectangle))
+                {
+                    player.MouvementBlocked = true;
+                }
+                else player.MouvementBlocked = false;
             });
         }
 

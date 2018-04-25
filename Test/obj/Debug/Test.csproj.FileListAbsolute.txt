@@ -84,3 +84,4 @@ C:\Users\theog\source\repos\AlphonseGame\Test\obj\Debug\Test.csproj.CoreCompileI
 C:\Users\theog\source\repos\AlphonseGame\Test\obj\Debug\Test.csproj.CopyComplete
 C:\Users\theog\source\repos\AlphonseGame\Test\obj\Debug\Test.exe
 C:\Users\theog\source\repos\AlphonseGame\Test\obj\Debug\Test.pdb
+C:\Users\theog\source\repos\AlphonseGame\Test\bin\DesktopGL\AnyCPU\Debug\Content\maplevel1.txt

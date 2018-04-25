@@ -12,7 +12,7 @@ namespace Test
     {
         public Texture2D projectileTexture;
         float projectileVitesse = 10f;
-        public Rectangle Position;
+        public Vector2 Position;
         public int Damage = 25;
         public bool Active;
         public int Range = 100;
@@ -25,7 +25,7 @@ namespace Test
             get { return projectileTexture.Height; }
         }
 
-        public void Initialize(Texture2D sprites, Rectangle position)
+        public void Initialize(Texture2D sprites, Vector2 position)
         {
             projectileTexture = sprites;
             Position = position;
