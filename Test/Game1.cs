@@ -142,7 +142,7 @@ namespace Test
                     {
                         //mapLevel1.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32)));
                         waterTiles.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32)));
-                        waterRectangle.Add(new Rectangle(y*32, x*32, 32,32));
+                        waterRectangle.Add(new Rectangle(waterTiles));
                     }
                     if (ligneMap[x].Substring(y, 1) == "R")
                     {
