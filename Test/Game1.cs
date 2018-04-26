@@ -47,8 +47,8 @@ namespace Test
         Rectangle playerRectangle;
         Rectangle ennemiRectangle;
         Rectangle projectileRectangle;
-        //List<Rectangle> waterRectangle;
-        Rectangle waterRectangle;
+        List<Rectangle> waterRectangle;
+        //Rectangle waterRectangle;
 
         public Game1()
         {
@@ -94,7 +94,7 @@ namespace Test
             objets = new List<Objet>();
             rockTiles = new List<Rock_Tile>();
             waterTiles = new List<Water_Tile>();
-            //waterRectangle = new List<Rectangle>();
+            waterRectangle = new List<Rectangle>();
             
             //objets.Enqueue(Objet.Spawn(Objet.Types.Fromage));
             //objets.Enqueue(Objet.Spawn(Objet.Types.Graines));
@@ -140,8 +140,9 @@ namespace Test
                     }
                     if (ligneMap[x].Substring(y,1) == "W")
                     {
-                        mapLevel1.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32)));
+                        //mapLevel1.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32)));
                         waterTiles.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32)));
+                        waterRectangle.Add(new Rectangle(y*32, x*32, 32,32));
                     }
                     if (ligneMap[x].Substring(y, 1) == "R")
                     {
@@ -375,13 +376,18 @@ namespace Test
         {
             Rectangle playerRectTemp = playerRectangle;
 
-            waterTiles.ForEach(w =>
+            //for (int i = 0; i < waterTiles.Count; i++) 
+            ////waterTiles.ForEach(w =>
+            //{
+            //    //instancier tous les rectangles TODO mettre dans une liste
+            //    waterRectangle.Add(new Rectangle((int)waterTiles[i].Position.X, (int)waterTiles[i].Position.Y, waterTiles[i].textureTuile.Width, waterTiles[i].textureTuile.Height));
+            //}
+            //);
+            //for (int i = 0; i < waterRectangle.Count; i++) 
+            foreach (var water in waterRectangle)
             {
-                //instancier tous les rectangles
-                waterRectangle = new Rectangle((int)w.Position.X, (int)w.Position.Y, w.textureTuile.Width, w.textureTuile.Height);
-
                 //verifier si le rectangle touche une tuile d'eau
-                if (playerRectTemp.Intersects(waterRectangle))
+                if (playerRectTemp.Intersects(water))
                 {
                     //empecher le mouvement
                     player.MouvementBlocked = true;
@@ -391,7 +397,8 @@ namespace Test
                     // autoriser le mouvement
                     player.MouvementBlocked = false;
                 }
-            });
+            }
+            
         }
 
         /// <summary>
@@ -408,6 +415,10 @@ namespace Test
             foreach (var p in mapLevel1)
             {
                 spriteBatch.Draw(p.textureTuile, p.Position, Color.White);
+            }
+            foreach (var w in waterTiles)
+            {
+                spriteBatch.Draw(w.textureTuile, w.Position, Color.White);
             }
 
             if (player.Active == true)
