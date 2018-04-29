@@ -141,8 +141,7 @@ namespace Test
                     if (ligneMap[x].Substring(y,1) == "W")
                     {
                         //mapLevel1.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32)));
-                        waterTiles.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32)));
-                        waterRectangle.Add(new Rectangle(waterTiles));
+                        waterTiles.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32), new Rectangle(y*32, x*32, waterTexture.Width, waterTexture.Height)));
                     }
                     if (ligneMap[x].Substring(y, 1) == "R")
                     {
@@ -239,7 +238,7 @@ namespace Test
                     cameraMatrix *= Matrix.CreateTranslation(0, cameraDelta, 0);
                     player.Position.Y -= speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
-                else player.Position.Y += 10;
+                else player.Position.Y += 1;
                 //rectangleTemp.Y -= (int)speedG * (int)gameTime.ElapsedGameTime.TotalSeconds;
                 //playerRectangle = rectangleTemp;
 
@@ -251,7 +250,7 @@ namespace Test
                     cameraMatrix *= Matrix.CreateTranslation(0, -cameraDelta, 0);
                     player.Position.Y += speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
-                else player.Position.Y -= 10;
+                else player.Position.Y -= 1;
             }
             if (kstate.IsKeyDown(Keys.Left) || kstate.IsKeyDown(Keys.A))
             {
@@ -260,7 +259,7 @@ namespace Test
                     cameraMatrix *= Matrix.CreateTranslation(cameraDelta, 0, 0);
                     player.Position.X -= speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
-                else player.Position.X += 10;
+                else player.Position.X += 1;
             }
             if (kstate.IsKeyDown(Keys.Right) || kstate.IsKeyDown(Keys.D))
             {
@@ -269,7 +268,7 @@ namespace Test
                     cameraMatrix *= Matrix.CreateTranslation(-cameraDelta, 0, 0);
                     player.Position.X += speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
-                else player.Position.X -= 10;
+                else player.Position.X -= 1;
             }
 
             //projectiles 
@@ -384,10 +383,14 @@ namespace Test
             //}
             //);
             //for (int i = 0; i < waterRectangle.Count; i++) 
-            foreach (var water in waterRectangle)
+            foreach (var water in waterTiles)
             {
                 //verifier si le rectangle touche une tuile d'eau
-                if (playerRectTemp.Intersects(water))
+                waterRectangle.Add(new Rectangle(water.waterRectangle.X, water.waterRectangle.Y, water.textureTuile.Width, water.textureTuile.Height));
+            }
+            foreach (var w in waterRectangle)
+            {
+                if (playerRectTemp.Intersects(w))
                 {
                     //empecher le mouvement
                     player.MouvementBlocked = true;

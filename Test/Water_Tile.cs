@@ -12,11 +12,13 @@ namespace Test
     {
         public new Texture2D textureTuile;
         public new Vector2 Position;
+        public Rectangle waterRectangle;
 
-        public Water_Tile(Texture2D textureTuile, Vector2 position) : base(textureTuile, position)
+        public Water_Tile(Texture2D textureTuile, Vector2 position, Rectangle pWaterRectangle) : base(textureTuile, position)
         {
             this.textureTuile = textureTuile;
             this.Position = position;
+            waterRectangle = pWaterRectangle;
         }
 
         public new int LargeurTuile
