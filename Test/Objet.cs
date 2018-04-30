@@ -57,6 +57,7 @@ namespace Test
 
         public void Update(GameTime gameTime, Rectangle playerRectangle)
         {
+            if (objetCount < 2)
             //if (ennemis.Count < 6)
             //{
             //    //prevEnnemiSpawn = gameTime.TotalGameTime;

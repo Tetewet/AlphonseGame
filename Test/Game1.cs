@@ -240,8 +240,11 @@ namespace Test
                 positionTemporaire.Y -= speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (CollisionsMap(gameTime) == false)
                 {
-                    cameraMatrix *= Matrix.CreateTranslation(0, cameraDelta, 0);
                     player.Position.Y = positionTemporaire.Y;
+                    if (player.Position.Y > GraphicsDevice.Viewport.Y + GraphicsDevice.Viewport.Height / 2)
+                    {
+                        cameraMatrix *= Matrix.CreateTranslation(0, cameraDelta, 0);
+                    }
                 }
                 else positionTemporaire.Y = player.Position.Y;
             }
@@ -251,8 +254,11 @@ namespace Test
                 positionTemporaire.Y += speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (CollisionsMap(gameTime) == false)
                 {
-                    cameraMatrix *= Matrix.CreateTranslation(0, -cameraDelta, 0);
                     player.Position.Y = positionTemporaire.Y;
+                    if (player.Position.Y > GraphicsDevice.Viewport.Y + GraphicsDevice.Viewport.Height / 2)
+                    {
+                        cameraMatrix *= Matrix.CreateTranslation(0, -cameraDelta, 0);
+                    }
                 }
                 else positionTemporaire.Y = player.Position.Y;
             }
@@ -262,8 +268,11 @@ namespace Test
                 positionTemporaire.X -= speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (CollisionsMap(gameTime) == false)
                 {
-                    cameraMatrix *= Matrix.CreateTranslation(cameraDelta, 0, 0);
                     player.Position.X = positionTemporaire.X;
+                    if (player.Position.X > GraphicsDevice.Viewport.X + GraphicsDevice.Viewport.Width / 2 || player.Position.X < GraphicsDevice.Viewport.Width + GraphicsDevice.Viewport.X)
+                    {
+                        cameraMatrix *= Matrix.CreateTranslation(cameraDelta, 0, 0);
+                    }
                 }
                 else positionTemporaire.X = player.Position.X;
             }
@@ -273,8 +282,11 @@ namespace Test
                 positionTemporaire.X += speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (CollisionsMap(gameTime) == false)
                 {
-                    cameraMatrix *= Matrix.CreateTranslation(-cameraDelta, 0, 0);
                     player.Position.X = positionTemporaire.X;
+                    if (player.Position.X > GraphicsDevice.Viewport.X + GraphicsDevice.Viewport.Width / 2)
+                    {
+                        cameraMatrix *= Matrix.CreateTranslation(-cameraDelta, 0, 0);
+                    }
                 }
                 else positionTemporaire.X = player.Position.X;
             }
