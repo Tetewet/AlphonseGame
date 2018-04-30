@@ -141,12 +141,13 @@ namespace Test
                     }
                     if (ligneMap[x].Substring(y,1) == "W")
                     {
-                        mapLevel1.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32), new Rectangle(y*32, x*32, waterTexture.Width, waterTexture.Height)));
+                        mapLevel1.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32), new Rectangle(y * 32, x * 32, waterTexture.Width, waterTexture.Height)));
                         waterTiles.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32), new Rectangle(y * 32, x * 32, waterTexture.Width, waterTexture.Height)));
                     }
                     if (ligneMap[x].Substring(y, 1) == "R")
                     {
-                        mapLevel1.Add(new Rock_Tile(rockTexture, new Vector2(y * 32, x * 32)));
+                        mapLevel1.Add(new Rock_Tile(rockTexture, new Vector2(y * 32, x * 32), new Rectangle(y * 32, x * 32, rockTexture.Width, rockTexture.Height)));
+                        rockTiles.Add(new Rock_Tile(rockTexture, new Vector2(y * 32, x * 32), new Rectangle(y * 32, x * 32, rockTexture.Width, rockTexture.Height)));
                     }
                     if (ligneMap[x].Substring(y, 1) == "S")
                     {
@@ -381,18 +382,26 @@ namespace Test
         public bool CollisionsMap(GameTime gameTime)
         {
             Rectangle playerRectTemp;
-            playerRectTemp.X = (int)positionTemporaire.X;
-            playerRectTemp.Y = (int)positionTemporaire.Y;
-            playerRectTemp.Width = playerTexture.Width - 10;
-            playerRectTemp.Height = playerTexture.Height - 10;
             
             foreach (var w in waterTiles)
             {
                 playerRectTemp.X = (int)positionTemporaire.X;
                 playerRectTemp.Y = (int)positionTemporaire.Y;
-                playerRectTemp.Width = playerTexture.Width - 10;
-                playerRectTemp.Height = playerTexture.Height - 10;
+                playerRectTemp.Width = playerTexture.Width - 5;
+                playerRectTemp.Height = playerTexture.Height - 5;
                 if (playerRectTemp.Intersects(w.waterRectangle))
+                {
+                    //empecher le mouvement
+                    return true;
+                }
+            }
+            foreach (var r in rockTiles)
+            {
+                playerRectTemp.X = (int)positionTemporaire.X;
+                playerRectTemp.Y = (int)positionTemporaire.Y;
+                playerRectTemp.Width = playerTexture.Width - 5;
+                playerRectTemp.Height = playerTexture.Height - 5;
+                if (playerRectTemp.Intersects(r.rockRectangle))
                 {
                     //empecher le mouvement
                     return true;
