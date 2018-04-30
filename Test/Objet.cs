@@ -16,9 +16,9 @@ namespace Test
         public Rectangle ObjetRectangle;
         public Vector2 PositionObjet;
         public bool Active;
-        public delegate void PickUpHandler(bool b);
+        public delegate void PickUpHandler(Types t);
         public event PickUpHandler PickUpObject = delegate { };
-        bool PickUp = true;
+        //bool PickUp = true;
         private Types objetType;
         //private Rectangle rectangle;
 
@@ -58,19 +58,8 @@ namespace Test
             // l'objet est-il ramassé ?
             if (playerRectangle.Intersects(ObjetRectangle))
             {
-                PickUpObject(PickUp);
+                PickUpObject(objetType);
             }
-
-            // ajouter un objet
-            //public void AjoutEnnemi()
-            //{
-            //    int r = random.Next(0, spawnable.Count);
-            //    var ennemiPosition = new Vector2(spawnable[r].Position.X, spawnable[r].Position.Y);
-            //    Ennemi ennemi = new Ennemi();
-            //    ennemi.Initialize(ennemiTexture, ennemiPosition);
-            //    ennemis.Add(ennemi);
-            //}
-            // enlever l'objet si ramassé
         }
 
         public void Draw(SpriteBatch spriteBatch)

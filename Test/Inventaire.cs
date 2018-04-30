@@ -11,6 +11,10 @@ namespace Test
     {
         public int currentItems;
         
+        public Inventaire()
+        {
+
+        }
 
         public void Initialize(int pCurrentItems)
         {

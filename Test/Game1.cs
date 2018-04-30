@@ -425,9 +425,24 @@ namespace Test
             foreach (var o in objets)
             {
                 o.Update(gameTime, playerRectangle);
+                o.PickUpObject += PickUpObjet;
             }
+            
         }
 
+        void PickUpObjet(Objet.Types ObjetTypes)
+        {
+            //switch (ObjetTypes)
+            //{
+            //    case Objet.Types.Croissant:
+            //        objets.RemoveAt((int)Objet.Types.Croissant);
+            //        break;
+            //}
+            if (ObjetTypes == Objet.Types.Croissant)
+            {
+                objets.RemoveAt((int)Objet.Types.Croissant);
+            }
+        }
         //essayer de faire les collisions avec la map
         public bool CollisionsMap(GameTime gameTime)
         {
