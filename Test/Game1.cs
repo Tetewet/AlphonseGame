@@ -19,7 +19,11 @@ namespace Test
         Texture2D playerTextureback;
         Texture2D playerTextureleft;
         Texture2D playerTextureright;
-        Texture2D objetCroissant;
+        Texture2D croissantTexture;
+        Texture2D fromageTexture;
+        Texture2D laitTexture;
+        Texture2D soupeTexture;
+        Texture2D grainesTexture;
         Vector2 positionTemporaire;
         KeyboardState prevKstate;
         KeyboardState kstate;
@@ -162,8 +166,6 @@ namespace Test
                 }
             }
             //objets.Add(new Objet(Objet.Types.Croissant, new Rectangle((int)dropLoot[0].Position.X, (int)dropLoot[0].Position.Y, (int)dropLoot[0].LargeurTuile, (int)dropLoot[0].HauteurTuile)));
-            //mapLevel1.Add(new TuileBase(textureTuile, new Vector2(0, 0)) { textureTuile = Content.Load<Texture2D>("grass_tile"), Position = new Vector2(0, 0) });
-            //mapLevel1.Add(new Grass_Tile(textureTuile, new Vector2(0, 32)));
             playerTexture = Content.Load<Texture2D>("newAlphonse");
             playerTextureback = Content.Load<Texture2D>("newAlphonse-back");
             playerTexturefront = Content.Load<Texture2D>("newAlphonse-front");
@@ -177,6 +179,12 @@ namespace Test
             ennemiTextureTemp = Content.Load<Texture2D>("ennemi-bird");
             //Vector2 ennemiPosition = new Vector2(GraphicsDevice.Viewport.X, GraphicsDevice.Viewport.Y + GraphicsDevice.Viewport.Height / 2);
             projectileTexture = Content.Load<Texture2D>("projectile");
+            croissantTexture = Content.Load<Texture2D>("croissant");
+            fromageTexture = Content.Load<Texture2D>("fromage");
+            laitTexture = Content.Load<Texture2D>("lait");
+            soupeTexture = Content.Load<Texture2D>("soupe");
+            grainesTexture = Content.Load<Texture2D>("graines");
+            
         }
         
         
@@ -216,6 +224,7 @@ namespace Test
                 UpdateEnnemis(gameTime);
                 UpdateCollisions(gameTime);
                 CollisionsMap(gameTime);
+                UpdateObjets(gameTime);
                 //foreach (var obj in objets)
                 //{
                 //    obj.Update(gameTime, playerRectangle);
@@ -269,7 +278,7 @@ namespace Test
                 if (CollisionsMap(gameTime) == false)
                 {
                     player.Position.X = positionTemporaire.X;
-                    if (player.Position.X > GraphicsDevice.Viewport.X + GraphicsDevice.Viewport.Width / 2 || player.Position.X < GraphicsDevice.Viewport.Width + GraphicsDevice.Viewport.X)
+                    if (player.Position.X > GraphicsDevice.Viewport.X + GraphicsDevice.Viewport.Width / 2)
                     {
                         cameraMatrix *= Matrix.CreateTranslation(cameraDelta, 0, 0);
                     }
@@ -348,11 +357,39 @@ namespace Test
             ennemis.Add(ennemi);
         }
 
-        //public void AjoutObjet(Objet.Types types)
-        //{
-        //    objets.Enqueue(Objet.Spawn(types));
+        public void UpdateObjets(GameTime gameTime)
+        {
+            if (objets.Count < 5)
+            {
+                AjoutObjet();
+            }
+        }
 
-        //}
+        public void AjoutObjet()
+        {
+            //randomize la création d'objet
+            int r = random.Next(0, dropLoot.Count);
+            int max = random.Next(0, 5);
+            switch (max)
+            {
+                case 0:
+                    objets.Add(new Objet(croissantTexture, Objet.Types.Croissant, new Vector2(dropLoot[r].Position.X, dropLoot[r].Position.Y), new Rectangle((int)dropLoot[r].Position.X, (int)dropLoot[r].Position.Y, croissantTexture.Width, croissantTexture.Height)));
+                    break;
+                case 1:
+                    objets.Add(new Objet(fromageTexture, Objet.Types.Fromage, new Vector2(dropLoot[r].Position.X, dropLoot[r].Position.Y), new Rectangle((int)dropLoot[r].Position.X, (int)dropLoot[r].Position.Y, fromageTexture.Width, fromageTexture.Height)));
+                    break;
+                case 2:
+                    objets.Add(new Objet(laitTexture, Objet.Types.Lait, new Vector2(dropLoot[r].Position.X, dropLoot[r].Position.Y), new Rectangle((int)dropLoot[r].Position.X, (int)dropLoot[r].Position.Y, laitTexture.Width, laitTexture.Height)));
+                    break;
+                case 3:
+                    objets.Add(new Objet(soupeTexture, Objet.Types.Soupe, new Vector2(dropLoot[r].Position.X, dropLoot[r].Position.Y), new Rectangle((int)dropLoot[r].Position.X, (int)dropLoot[r].Position.Y, soupeTexture.Width, soupeTexture.Height)));
+                    break;
+                case 4:
+                    objets.Add(new Objet(grainesTexture, Objet.Types.Graines, new Vector2(dropLoot[r].Position.X, dropLoot[r].Position.Y), new Rectangle((int)dropLoot[r].Position.X, (int)dropLoot[r].Position.Y, grainesTexture.Width, grainesTexture.Height)));
+                    break;
+            }
+            
+        }
 
         public void UpdateCollisions(GameTime gameTime)
         {
@@ -390,6 +427,7 @@ namespace Test
                 o.Update(gameTime, playerRectangle);
             }
         }
+
         //essayer de faire les collisions avec la map
         public bool CollisionsMap(GameTime gameTime)
         {

@@ -10,21 +10,25 @@ namespace Test
 { 
     class Objet
     {
-        static int maxObjet = 10;
-        static int objetCount = 0;
-        public Texture2D ObjetTexture { get; set; }
-        public Rectangle ObjetRectangle { get; set; }
+        public int maxObjet = 5;
+        //static int objetCount = 0;
+        public Texture2D ObjetTexture;
+        public Rectangle ObjetRectangle;
+        public Vector2 PositionObjet;
+        public bool Active;
         public delegate void PickUpHandler(bool b);
         public event PickUpHandler PickUpObject = delegate { };
         bool PickUp = true;
-        private Types croissant;
-        private Rectangle rectangle;
+        private Types objetType;
+        //private Rectangle rectangle;
 
-        public Objet(Types croissant, Rectangle rectangle)
+        public Objet(Texture2D pObjetTexture, Types pEnum, Vector2 pPosition, Rectangle pRectangle)
         {
-            this.croissant = croissant;
-            this.rectangle = rectangle;
-            Initialize(croissant, rectangle);
+            ObjetTexture = pObjetTexture;
+            objetType = pEnum;
+            ObjetRectangle = pRectangle;
+            PositionObjet = pPosition;
+            Active = true;
         }
 
         public enum Types
@@ -32,13 +36,7 @@ namespace Test
             Croissant, Fromage, Lait, Soupe, Graines 
         }
 
-        public void Initialize(Types types, Rectangle pObjetRectangle)
-        {
-            if (objetCount < maxObjet)
-            {
-                objetCount++;
-            }
-        }
+        
 
         //public bool IsAddObject(Random random)
         //{
@@ -57,23 +55,8 @@ namespace Test
 
         public void Update(GameTime gameTime, Rectangle playerRectangle)
         {
-            if (objetCount < 2)
-            //if (ennemis.Count < 6)
-            //{
-            //    //prevEnnemiSpawn = gameTime.TotalGameTime;
-            //    AjoutEnnemi();
-            //}
-
-            //for (int i = 0; i < ennemis.Count; i++)
-            //{
-            //    ennemis[i].Update(gameTime, player, ennemis[i], ennemiTextureTemp, ennemiTexture);
-            //    if (ennemis[i].Active == false)
-            //    {
-            //        ennemis.RemoveAt(i);
-            //    }
-            //}
             // l'objet est-il ramassé ?
-            if (ObjetRectangle.Intersects(playerRectangle))
+            if (playerRectangle.Intersects(ObjetRectangle))
             {
                 PickUpObject(PickUp);
             }
@@ -92,7 +75,7 @@ namespace Test
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(ObjetTexture, ObjetRectangle, Color.White);
+            spriteBatch.Draw(ObjetTexture, PositionObjet, Color.White);
         }
     }
 }

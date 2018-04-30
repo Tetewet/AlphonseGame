@@ -85,3 +85,7 @@ C:\Users\theog\source\repos\AlphonseGame\Test\obj\Debug\Test.csproj.CopyComplete
 C:\Users\theog\source\repos\AlphonseGame\Test\obj\Debug\Test.exe
 C:\Users\theog\source\repos\AlphonseGame\Test\obj\Debug\Test.pdb
 C:\Users\theog\source\repos\AlphonseGame\Test\bin\DesktopGL\AnyCPU\Debug\Content\maplevel1.txt
+C:\Users\theog\source\repos\AlphonseGame\Test\bin\DesktopGL\AnyCPU\Debug\Content\croissant.xnb
+C:\Users\theog\source\repos\AlphonseGame\Test\bin\DesktopGL\AnyCPU\Debug\Content\graines.xnb
+C:\Users\theog\source\repos\AlphonseGame\Test\bin\DesktopGL\AnyCPU\Debug\Content\lait.xnb
+C:\Users\theog\source\repos\AlphonseGame\Test\bin\DesktopGL\AnyCPU\Debug\Content\soupe.xnb
