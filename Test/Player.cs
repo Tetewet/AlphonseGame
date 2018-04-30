@@ -24,8 +24,6 @@ namespace Test
             get { return PlayerTexture.Height; }
         }
 
-        public bool MouvementBlocked { get; set; }
-
         public void Initialize(Texture2D texture, Vector2 position)
         {
             PlayerTexture = texture;

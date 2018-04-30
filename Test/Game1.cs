@@ -20,6 +20,7 @@ namespace Test
         Texture2D playerTextureleft;
         Texture2D playerTextureright;
         Texture2D objetCroissant;
+        Vector2 positionTemporaire;
         KeyboardState prevKstate;
         KeyboardState kstate;
         List<Ennemi> ennemis;
@@ -47,7 +48,7 @@ namespace Test
         Rectangle playerRectangle;
         Rectangle ennemiRectangle;
         Rectangle projectileRectangle;
-        List<Rectangle> waterRectangle;
+        //List<Rectangle> waterRectangle;
         //Rectangle waterRectangle;
 
         public Game1()
@@ -94,7 +95,7 @@ namespace Test
             objets = new List<Objet>();
             rockTiles = new List<Rock_Tile>();
             waterTiles = new List<Water_Tile>();
-            waterRectangle = new List<Rectangle>();
+            //waterRectangle = new List<Rectangle>();
             
             //objets.Enqueue(Objet.Spawn(Objet.Types.Fromage));
             //objets.Enqueue(Objet.Spawn(Objet.Types.Graines));
@@ -140,8 +141,8 @@ namespace Test
                     }
                     if (ligneMap[x].Substring(y,1) == "W")
                     {
-                        //mapLevel1.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32)));
-                        waterTiles.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32), new Rectangle(y*32, x*32, waterTexture.Width, waterTexture.Height)));
+                        mapLevel1.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32), new Rectangle(y*32, x*32, waterTexture.Width, waterTexture.Height)));
+                        waterTiles.Add(new Water_Tile(waterTexture, new Vector2(y * 32, x * 32), new Rectangle(y * 32, x * 32, waterTexture.Width, waterTexture.Height)));
                     }
                     if (ligneMap[x].Substring(y, 1) == "R")
                     {
@@ -168,6 +169,7 @@ namespace Test
             playerTextureleft = Content.Load<Texture2D>("newAlphonse-left");
             playerTextureright = Content.Load<Texture2D>("newAlphonse");
             //Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.X + GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Y + GraphicsDevice.Viewport.Height / 2);
+            positionTemporaire = new Vector2(128, 128);
             Vector2 playerPosition = new Vector2(128, 128);
             player.Initialize(playerTexture, playerPosition);
             ennemiTexture = Content.Load<Texture2D>("ennemi");
@@ -233,42 +235,47 @@ namespace Test
             float cameraDelta = (float)(CameraSpeed * gameTime.ElapsedGameTime.TotalSeconds);
             if (kstate.IsKeyDown(Keys.Up) || kstate.IsKeyDown(Keys.W))
             {
-                if (player.MouvementBlocked == false)
+                //position temporaire pour determiner si le mouvement est faisable
+                positionTemporaire.Y -= speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (CollisionsMap(gameTime) == false)
                 {
                     cameraMatrix *= Matrix.CreateTranslation(0, cameraDelta, 0);
-                    player.Position.Y -= speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    player.Position.Y = positionTemporaire.Y;
                 }
-                else player.Position.Y += 1;
-                //rectangleTemp.Y -= (int)speedG * (int)gameTime.ElapsedGameTime.TotalSeconds;
-                //playerRectangle = rectangleTemp;
-
+                else positionTemporaire.Y = player.Position.Y;
             }
             if (kstate.IsKeyDown(Keys.Down) || kstate.IsKeyDown(Keys.S))
             {
-                if (player.MouvementBlocked == false)
+                //position temporaire pour determiner si le mouvement est faisable
+                positionTemporaire.Y += speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (CollisionsMap(gameTime) == false)
                 {
                     cameraMatrix *= Matrix.CreateTranslation(0, -cameraDelta, 0);
-                    player.Position.Y += speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    player.Position.Y = positionTemporaire.Y;
                 }
-                else player.Position.Y -= 1;
+                else positionTemporaire.Y = player.Position.Y;
             }
             if (kstate.IsKeyDown(Keys.Left) || kstate.IsKeyDown(Keys.A))
             {
-                if (player.MouvementBlocked == false)
+                //position temporaire pour determiner si le mouvement est faisable
+                positionTemporaire.X -= speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (CollisionsMap(gameTime) == false)
                 {
                     cameraMatrix *= Matrix.CreateTranslation(cameraDelta, 0, 0);
-                    player.Position.X -= speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    player.Position.X = positionTemporaire.X;
                 }
-                else player.Position.X += 1;
+                else positionTemporaire.X = player.Position.X;
             }
-            if (kstate.IsKeyDown(Keys.Right) || kstate.IsKeyDown(Keys.D))
+            if (kstate.IsKeyDown(Keys.Right) || kstate.IsKeyDown(Keys.D)) //mouvement droite
             {
-                if (player.MouvementBlocked == false)
+                //position temporaire pour determiner si le mouvement est faisable
+                positionTemporaire.X += speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (CollisionsMap(gameTime) == false)
                 {
                     cameraMatrix *= Matrix.CreateTranslation(-cameraDelta, 0, 0);
-                    player.Position.X += speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    player.Position.X = positionTemporaire.X;
                 }
-                else player.Position.X -= 1;
+                else positionTemporaire.X = player.Position.X;
             }
 
             //projectiles 
@@ -371,9 +378,28 @@ namespace Test
             }
         }
         //essayer de faire les collisions avec la map
-        public void CollisionsMap(GameTime gameTime)
+        public bool CollisionsMap(GameTime gameTime)
         {
-            Rectangle playerRectTemp = playerRectangle;
+            Rectangle playerRectTemp;
+            playerRectTemp.X = (int)positionTemporaire.X;
+            playerRectTemp.Y = (int)positionTemporaire.Y;
+            playerRectTemp.Width = playerTexture.Width - 10;
+            playerRectTemp.Height = playerTexture.Height - 10;
+            
+            foreach (var w in waterTiles)
+            {
+                playerRectTemp.X = (int)positionTemporaire.X;
+                playerRectTemp.Y = (int)positionTemporaire.Y;
+                playerRectTemp.Width = playerTexture.Width - 10;
+                playerRectTemp.Height = playerTexture.Height - 10;
+                if (playerRectTemp.Intersects(w.waterRectangle))
+                {
+                    //empecher le mouvement
+                    return true;
+                }
+            }
+            // autoriser le mouvement
+            return false;
 
             //for (int i = 0; i < waterTiles.Count; i++) 
             ////waterTiles.ForEach(w =>
@@ -382,26 +408,13 @@ namespace Test
             //    waterRectangle.Add(new Rectangle((int)waterTiles[i].Position.X, (int)waterTiles[i].Position.Y, waterTiles[i].textureTuile.Width, waterTiles[i].textureTuile.Height));
             //}
             //);
-            //for (int i = 0; i < waterRectangle.Count; i++) 
-            foreach (var water in waterTiles)
-            {
-                //verifier si le rectangle touche une tuile d'eau
-                waterRectangle.Add(new Rectangle(water.waterRectangle.X, water.waterRectangle.Y, water.textureTuile.Width, water.textureTuile.Height));
-            }
-            foreach (var w in waterRectangle)
-            {
-                if (playerRectTemp.Intersects(w))
-                {
-                    //empecher le mouvement
-                    player.MouvementBlocked = true;
-                }
-                else
-                {
-                    // autoriser le mouvement
-                    player.MouvementBlocked = false;
-                }
-            }
-            
+            //for (int i = 0; i < waterTiles.Count; i++) 
+            ////foreach (var water in waterTiles)
+            //{
+            //    //verifier si le rectangle touche une tuile d'eau
+
+            //    waterRectangle.Add(new Rectangle(waterTiles[i].waterRectangle.X, waterTiles[i].waterRectangle.Y, waterTiles[i].textureTuile.Width, waterTiles[i].textureTuile.Height));
+            //}
         }
 
         /// <summary>
@@ -419,10 +432,10 @@ namespace Test
             {
                 spriteBatch.Draw(p.textureTuile, p.Position, Color.White);
             }
-            foreach (var w in waterTiles)
-            {
-                spriteBatch.Draw(w.textureTuile, w.Position, Color.White);
-            }
+            //foreach (var w in waterTiles)
+            //{
+            //    spriteBatch.Draw(w.textureTuile, w.Position, Color.White);
+            //}
 
             if (player.Active == true)
             {
