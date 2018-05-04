@@ -24,6 +24,7 @@ namespace Test
         Texture2D laitTexture;
         Texture2D soupeTexture;
         Texture2D grainesTexture;
+        Texture2D inventaireTexture;
         Vector2 positionTemporaire;
         KeyboardState prevKstate;
         KeyboardState kstate;
@@ -53,7 +54,8 @@ namespace Test
         Rectangle playerRectangle;
         Rectangle ennemiRectangle;
         Rectangle projectileRectangle;
-        Rectangle inventaireRectangle;
+        int indexInventaire = default(int);
+        //Rectangle inventaireRectangle;
         //List<Rectangle> waterRectangle;
         //Rectangle waterRectangle;
 
@@ -187,6 +189,7 @@ namespace Test
             laitTexture = Content.Load<Texture2D>("lait");
             soupeTexture = Content.Load<Texture2D>("soupe");
             grainesTexture = Content.Load<Texture2D>("graines");
+            inventaireTexture = Content.Load<Texture2D>("bouton");
             
         }
         
@@ -359,9 +362,14 @@ namespace Test
 
         public void UpdateObjets(GameTime gameTime)
         {
-            if (objets.Count < 5)
+            if (objets.Count < 8)
             {
                 AjoutObjet();
+            }
+            foreach (var o in objets)
+            {
+                o.Update(gameTime, playerRectangle);
+                o.PickUpObject += PickUpObjet;
             }
         }
 
@@ -422,14 +430,28 @@ namespace Test
                     }
                 }
             });
-            foreach (var o in objets)
-            {
-                o.Update(gameTime, playerRectangle);
-                o.PickUpObject += PickUpObjet;
-            }
+            //foreach (var o in objets)
+            //{
+            //    o.Update(gameTime, playerRectangle);
+            //    o.PickUpObject += PickUpObjet;
+            //}
         }
 
         void PickUpObjet(Objet.Types ObjetTypes)
+        {
+            //for (int i = 0; i < objets.Count; i++)
+            AjoutObjetInventaire(ObjetTypes);
+            inventaire.Add(ObjetTypes, 1);
+            //foreach (var o in objets)
+            //{
+            //    if (ObjetTypes == o.objetType)
+            //    {
+            //        o.Active = false;
+            //    }
+            //}
+        }
+
+        void AjoutObjetInventaire(Objet.Types ObjetTypes)
         {
             Texture2D textureTemp = croissantTexture;
             switch (ObjetTypes)
@@ -450,16 +472,14 @@ namespace Test
                     textureTemp = grainesTexture;
                     break;
             }
-            for (int i = 0; i < objets.Count; i++)
-            {
-                if (ObjetTypes == objets[i].objetType)
-                {
-                    inventaire.Add(ObjetTypes, 1);
-                    objetsInventaire.Add(new Objet(textureTemp, ObjetTypes, new Vector2(128, 128), new Rectangle(128, 128, textureTemp.Width, textureTemp.Height)));
-                    objets[i].Active = false;
-                }
-            }
+            //int indexInventaire = default(int);
+            MathHelper.Clamp(indexInventaire, 0, 5);
+            objetsInventaire.Add(new Objet(textureTemp, ObjetTypes,
+                new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + indexInventaire * 32, GraphicsDevice.Viewport.TitleSafeArea.Height - 100),
+                new Rectangle(GraphicsDevice.Viewport.TitleSafeArea.X + indexInventaire * 32, GraphicsDevice.Viewport.TitleSafeArea.Height - 100, textureTemp.Width, textureTemp.Height)));
+            indexInventaire++;
         }
+
         //essayer de faire les collisions avec la map
         public bool CollisionsMap(GameTime gameTime)
         {
@@ -517,6 +537,7 @@ namespace Test
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
+            
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cameraMatrix);
             foreach (var p in mapLevel1)
@@ -562,6 +583,14 @@ namespace Test
                 {
                     proj.Draw(spriteBatch);
                 }
+            }
+            spriteBatch.End();
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(inventaireTexture, new Rectangle(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Height - 128, GraphicsDevice.Viewport.TitleSafeArea.Width, 128), Color.Brown);
+            foreach (var o in objetsInventaire)
+            {
+                spriteBatch.Draw(o.ObjetTexture, o.ObjetRectangle, Color.White);
             }
             spriteBatch.End();
             base.Draw(gameTime);

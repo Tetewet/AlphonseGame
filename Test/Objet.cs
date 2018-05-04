@@ -61,6 +61,7 @@ namespace Test
                 if (playerRectangle.Intersects(ObjetRectangle))
                 {
                     PickUpObject(objetType);
+                    Active = false;
                 }
             }
         }

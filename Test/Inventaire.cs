@@ -11,7 +11,7 @@ namespace Test
     {
         T[] enumObjet;
         K[] nombreObjet;
-        int w, x, y, z;
+        public int w, x, y, z;
         
         public Inventaire()
         {
@@ -51,7 +51,6 @@ namespace Test
                 nombreObjet[y++] = pObjet2;
             }
         }
-
 
     }
 }
