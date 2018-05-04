@@ -16,11 +16,10 @@ namespace Test
 
         }
 
-        public void Initialize(int pCurrentItems)
-        {
-            currentItems = pCurrentItems;
-
-        }
+        //public void Initialize(int pCurrentItems)
+        //{
+        //    currentItems = pCurrentItems;
+        //}
 
         
     }

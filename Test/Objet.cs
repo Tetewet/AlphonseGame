@@ -19,7 +19,7 @@ namespace Test
         public delegate void PickUpHandler(Types t);
         public event PickUpHandler PickUpObject = delegate { };
         //bool PickUp = true;
-        private Types objetType;
+        public Types objetType;
         //private Rectangle rectangle;
 
         public Objet(Texture2D pObjetTexture, Types pEnum, Vector2 pPosition, Rectangle pRectangle)
@@ -56,15 +56,21 @@ namespace Test
         public void Update(GameTime gameTime, Rectangle playerRectangle)
         {
             // l'objet est-il ramassé ?
-            if (playerRectangle.Intersects(ObjetRectangle))
+            if (Active == true)
             {
-                PickUpObject(objetType);
+                if (playerRectangle.Intersects(ObjetRectangle))
+                {
+                    PickUpObject(objetType);
+                }
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(ObjetTexture, PositionObjet, Color.White);
+            if (Active == true)
+            {
+                spriteBatch.Draw(ObjetTexture, PositionObjet, Color.White);
+            }
         }
     }
 }

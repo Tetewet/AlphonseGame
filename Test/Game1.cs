@@ -75,8 +75,8 @@ namespace Test
         {
             // TODO: Add your initialization logic here
             graphics.IsFullScreen = true;
-            graphics.PreferredBackBufferWidth = 800;
-            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 1200;
+            graphics.PreferredBackBufferHeight = 900;
             graphics.ApplyChanges();
 
             player = new Player();
@@ -398,7 +398,7 @@ namespace Test
         if (rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x && rect1.y<rect2.y + rect2.height && rect1.height + rect1.y> rect2.y)
             ;*/
 
-            playerRectangle = new Rectangle((int)player.Position.X, (int)player.Position.Y, player.Width - 10, player.Height - 10);
+            playerRectangle = new Rectangle((int)player.Position.X, (int)player.Position.Y, player.Width - 5, player.Height - 5);
 
             ennemis.ForEach(e =>
             {
@@ -427,20 +427,16 @@ namespace Test
                 o.Update(gameTime, playerRectangle);
                 o.PickUpObject += PickUpObjet;
             }
-            
         }
 
         void PickUpObjet(Objet.Types ObjetTypes)
         {
-            //switch (ObjetTypes)
-            //{
-            //    case Objet.Types.Croissant:
-            //        objets.RemoveAt((int)Objet.Types.Croissant);
-            //        break;
-            //}
-            if (ObjetTypes == Objet.Types.Croissant)
+            for (int i = 0; i < objets.Count; i++)
             {
-                objets.RemoveAt((int)Objet.Types.Croissant);
+                if (ObjetTypes == objets[i].objetType)
+                {
+                    objets[i].Active = false;
+                }
             }
         }
         //essayer de faire les collisions avec la map
