@@ -31,7 +31,7 @@ namespace Test
         TimeSpan ennemiSpawn;
         TimeSpan prevEnnemiSpawn;
         Random random;
-        Inventaire[] inventaire;
+        Inventaire<Objet.Types, int> inventaire;
         List<Objet> objets;
         List<TuileBase> mapLevel1;
         List<Grass_Tile> spawnable;
@@ -85,7 +85,7 @@ namespace Test
             prevEnnemiSpawn = TimeSpan.Zero;
             ennemiSpawn = TimeSpan.FromSeconds(1.0f);
             random = new Random();
-            inventaire = new Inventaire[10];
+            inventaire = new Inventaire<Objet.Types, int>();
             projectiles = new List<Projectile>();
             const float secondes = 60f;
             const float cadence_de_tir = 200f;
@@ -435,6 +435,7 @@ namespace Test
             {
                 if (ObjetTypes == objets[i].objetType)
                 {
+                    inventaire.Add(ObjetTypes, 1);
                     objets[i].Active = false;
                 }
             }
