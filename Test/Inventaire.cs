@@ -19,6 +19,8 @@ namespace Test
             x = 10; //nombre maximal d'objet T - items différents
             y = 0; //nombre actuel d'objet K - stack d'item
             z = 5; //nombre maximal d'objet K - stack d'item
+            enumObjet = new T[x];
+            nombreObjet = new K[z];
         }
 
         //check si l'inventaire est complet
@@ -49,5 +51,7 @@ namespace Test
                 nombreObjet[y++] = pObjet2;
             }
         }
+
+
     }
 }

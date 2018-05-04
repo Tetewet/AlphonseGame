@@ -33,6 +33,7 @@ namespace Test
         Random random;
         Inventaire<Objet.Types, int> inventaire;
         List<Objet> objets;
+        List<Objet> objetsInventaire;
         List<TuileBase> mapLevel1;
         List<Grass_Tile> spawnable;
         List<Forest_Tile> dropLoot;
@@ -52,6 +53,7 @@ namespace Test
         Rectangle playerRectangle;
         Rectangle ennemiRectangle;
         Rectangle projectileRectangle;
+        Rectangle inventaireRectangle;
         //List<Rectangle> waterRectangle;
         //Rectangle waterRectangle;
 
@@ -97,6 +99,7 @@ namespace Test
             spawnable = new List<Grass_Tile>();
             dropLoot = new List<Forest_Tile>();
             objets = new List<Objet>();
+            objetsInventaire = new List<Objet>();
             rockTiles = new List<Rock_Tile>();
             waterTiles = new List<Water_Tile>();
             //waterRectangle = new List<Rectangle>();
@@ -225,10 +228,7 @@ namespace Test
                 UpdateCollisions(gameTime);
                 CollisionsMap(gameTime);
                 UpdateObjets(gameTime);
-                //foreach (var obj in objets)
-                //{
-                //    obj.Update(gameTime, playerRectangle);
-                //}
+                
             }
             /*
             player.Position.Y -= speedG * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -431,11 +431,31 @@ namespace Test
 
         void PickUpObjet(Objet.Types ObjetTypes)
         {
+            Texture2D textureTemp = croissantTexture;
+            switch (ObjetTypes)
+            {
+                case Objet.Types.Croissant:
+                    textureTemp = croissantTexture;
+                    break;
+                case Objet.Types.Fromage:
+                    textureTemp = fromageTexture;
+                    break;
+                case Objet.Types.Lait:
+                    textureTemp = laitTexture;
+                    break;
+                case Objet.Types.Soupe:
+                    textureTemp = soupeTexture;
+                    break;
+                case Objet.Types.Graines:
+                    textureTemp = grainesTexture;
+                    break;
+            }
             for (int i = 0; i < objets.Count; i++)
             {
                 if (ObjetTypes == objets[i].objetType)
                 {
                     inventaire.Add(ObjetTypes, 1);
+                    objetsInventaire.Add(new Objet(textureTemp, ObjetTypes, new Vector2(128, 128), new Rectangle(128, 128, textureTemp.Width, textureTemp.Height)));
                     objets[i].Active = false;
                 }
             }
