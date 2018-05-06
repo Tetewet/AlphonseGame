@@ -66,6 +66,18 @@ namespace Test
             }
         }
 
+        public void Update(int pNumber, bool pIsVictory)
+        {
+            if (pNumber >= 5)
+            {
+                pIsVictory = true;
+            }
+            else
+            {
+                pIsVictory = false;
+            }
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             if (Active == true)

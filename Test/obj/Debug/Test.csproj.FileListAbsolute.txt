@@ -90,3 +90,4 @@ C:\Users\theog\source\repos\AlphonseGame\Test\bin\DesktopGL\AnyCPU\Debug\Content
 C:\Users\theog\source\repos\AlphonseGame\Test\bin\DesktopGL\AnyCPU\Debug\Content\lait.xnb
 C:\Users\theog\source\repos\AlphonseGame\Test\bin\DesktopGL\AnyCPU\Debug\Content\soupe.xnb
 C:\Users\theog\source\repos\AlphonseGame\Test\bin\DesktopGL\AnyCPU\Debug\Content\bouton.xnb
+C:\Users\theog\source\repos\AlphonseGame\Test\bin\DesktopGL\AnyCPU\Debug\Content\victoryFont.xnb

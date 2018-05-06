@@ -329,3 +329,10 @@
 /processorParam:TextureFormat=Color
 /build:bouton.png
 
+#begin victoryFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:victoryFont.spritefont
+

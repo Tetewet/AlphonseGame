@@ -54,7 +54,9 @@ namespace Test
         Rectangle playerRectangle;
         Rectangle ennemiRectangle;
         Rectangle projectileRectangle;
-        int indexInventaire = default(int);
+        public bool isVictory = false;
+        SpriteFont victoryFont;
+        public int nombreItems = 0;
         //Rectangle inventaireRectangle;
         //List<Rectangle> waterRectangle;
         //Rectangle waterRectangle;
@@ -190,7 +192,7 @@ namespace Test
             soupeTexture = Content.Load<Texture2D>("soupe");
             grainesTexture = Content.Load<Texture2D>("graines");
             inventaireTexture = Content.Load<Texture2D>("bouton");
-            
+            victoryFont = Content.Load<SpriteFont>("victoryFont");
         }
         
         
@@ -371,6 +373,13 @@ namespace Test
                 o.Update(gameTime, playerRectangle);
                 o.PickUpObject += PickUpObjet;
             }
+            for (int i = 0; i < objets.Count; i++) 
+            {
+                if (objets[i].Active == false)
+                {
+                    objets.RemoveAt(i);
+                }
+            }
         }
 
         public void AjoutObjet()
@@ -396,7 +405,6 @@ namespace Test
                     objets.Add(new Objet(grainesTexture, Objet.Types.Graines, new Vector2(dropLoot[r].Position.X, dropLoot[r].Position.Y), new Rectangle((int)dropLoot[r].Position.X, (int)dropLoot[r].Position.Y, grainesTexture.Width, grainesTexture.Height)));
                     break;
             }
-            
         }
 
         public void UpdateCollisions(GameTime gameTime)
@@ -440,8 +448,8 @@ namespace Test
         void PickUpObjet(Objet.Types ObjetTypes)
         {
             //for (int i = 0; i < objets.Count; i++)
-            AjoutObjetInventaire(ObjetTypes);
             inventaire.Add(ObjetTypes, 1);
+            AjoutObjetInventaire(ObjetTypes);
             //foreach (var o in objets)
             //{
             //    if (ObjetTypes == o.objetType)
@@ -454,30 +462,36 @@ namespace Test
         void AjoutObjetInventaire(Objet.Types ObjetTypes)
         {
             Texture2D textureTemp = croissantTexture;
+            Vector2 positionTemp = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + 32, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.Height - 96);
             switch (ObjetTypes)
             {
                 case Objet.Types.Croissant:
                     textureTemp = croissantTexture;
+                    positionTemp = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + 32, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.Height - 96);
                     break;
                 case Objet.Types.Fromage:
                     textureTemp = fromageTexture;
+                    positionTemp = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + 64, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.Height - 96);
                     break;
                 case Objet.Types.Lait:
                     textureTemp = laitTexture;
+                    positionTemp = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + 96, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.Height - 96);
                     break;
                 case Objet.Types.Soupe:
                     textureTemp = soupeTexture;
+                    positionTemp = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + 128, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.Height - 96);
                     break;
                 case Objet.Types.Graines:
                     textureTemp = grainesTexture;
+                    positionTemp = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + 160, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.Height - 96);
                     break;
             }
-            //int indexInventaire = default(int);
-            MathHelper.Clamp(indexInventaire, 0, 5);
-            objetsInventaire.Add(new Objet(textureTemp, ObjetTypes,
-                new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + indexInventaire * 32, GraphicsDevice.Viewport.TitleSafeArea.Height - 100),
-                new Rectangle(GraphicsDevice.Viewport.TitleSafeArea.X + indexInventaire * 32, GraphicsDevice.Viewport.TitleSafeArea.Height - 100, textureTemp.Width, textureTemp.Height)));
-            indexInventaire++;
+            objetsInventaire.Add(new Objet(textureTemp, ObjetTypes, positionTemp, new Rectangle((int)positionTemp.X, (int)positionTemp.Y, textureTemp.Width, textureTemp.Height)));
+            nombreItems++;
+            foreach (var obj in objetsInventaire)
+            {
+                obj.Update(nombreItems, isVictory);
+            }
         }
 
         //essayer de faire les collisions avec la map
@@ -591,6 +605,10 @@ namespace Test
             foreach (var o in objetsInventaire)
             {
                 spriteBatch.Draw(o.ObjetTexture, o.ObjetRectangle, Color.White);
+            }
+            if (isVictory == true)
+            {
+                spriteBatch.DrawString(victoryFont, "VICTORY !", new Vector2(GraphicsDevice.Viewport.Width/2, GraphicsDevice.Viewport.Height/2), Color.DarkRed);
             }
             spriteBatch.End();
             base.Draw(gameTime);
