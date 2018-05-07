@@ -55,8 +55,10 @@ namespace Test
         Rectangle ennemiRectangle;
         Rectangle projectileRectangle;
         public bool isVictory = false;
+        bool isDefeat = false;
         SpriteFont victoryFont;
         public int nombreItems = 0;
+
         //Rectangle inventaireRectangle;
         //List<Rectangle> waterRectangle;
         //Rectangle waterRectangle;
@@ -68,7 +70,6 @@ namespace Test
             IsMouseVisible = true;
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
-
         }
 
         /// <summary>
@@ -364,7 +365,7 @@ namespace Test
 
         public void UpdateObjets(GameTime gameTime)
         {
-            if (objets.Count < 8)
+            if (objets.Count < 5)
             {
                 AjoutObjet();
             }
@@ -372,12 +373,14 @@ namespace Test
             {
                 o.Update(gameTime, playerRectangle);
                 o.PickUpObject += PickUpObjet;
+                
             }
             for (int i = 0; i < objets.Count; i++) 
             {
                 if (objets[i].Active == false)
                 {
                     objets.RemoveAt(i);
+                    nombreItems += 1;
                 }
             }
         }
@@ -435,6 +438,7 @@ namespace Test
                     if (player.Health <= 0)
                     {
                         player.Active = false;
+                        isDefeat = true;
                     }
                 }
             });
@@ -487,10 +491,10 @@ namespace Test
                     break;
             }
             objetsInventaire.Add(new Objet(textureTemp, ObjetTypes, positionTemp, new Rectangle((int)positionTemp.X, (int)positionTemp.Y, textureTemp.Width, textureTemp.Height)));
-            nombreItems++;
+            
             foreach (var obj in objetsInventaire)
             {
-                obj.Update(nombreItems, isVictory);
+                obj.Update(nombreItems);
             }
         }
 
@@ -605,10 +609,16 @@ namespace Test
             foreach (var o in objetsInventaire)
             {
                 spriteBatch.Draw(o.ObjetTexture, o.ObjetRectangle, Color.White);
+                if (o.isVictory == true)
+                {
+                    spriteBatch.DrawString(victoryFont, "VICTOIRE ! un bon repas vous attend !", new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Height - 64), Color.Black);
+                    player.Active = false;
+                }
             }
-            if (isVictory == true)
+            spriteBatch.DrawString(victoryFont, "HP : " + player.Health.ToString(), new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width - 160, GraphicsDevice.Viewport.TitleSafeArea.Height - 120), Color.ForestGreen);
+            if (isDefeat == true)
             {
-                spriteBatch.DrawString(victoryFont, "VICTORY !", new Vector2(GraphicsDevice.Viewport.Width/2, GraphicsDevice.Viewport.Height/2), Color.DarkRed);
+                spriteBatch.DrawString(victoryFont, "DEFAITE ! Va falloir recommencer !", new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Height - 64), Color.Black);
             }
             spriteBatch.End();
             base.Draw(gameTime);

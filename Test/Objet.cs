@@ -10,7 +10,7 @@ namespace Test
 { 
     class Objet
     {
-        public int maxObjet = 5;
+        public int maxObjet = 20;
         //static int objetCount = 0;
         public Texture2D ObjetTexture;
         public Rectangle ObjetRectangle;
@@ -20,6 +20,7 @@ namespace Test
         public event PickUpHandler PickUpObject = delegate { };
         //bool PickUp = true;
         public Types objetType;
+        public bool isVictory;
         //private Rectangle rectangle;
 
         public Objet(Texture2D pObjetTexture, Types pEnum, Vector2 pPosition, Rectangle pRectangle)
@@ -66,16 +67,18 @@ namespace Test
             }
         }
 
-        public void Update(int pNumber, bool pIsVictory)
+        public void Update(int pNumber)
         {
-            if (pNumber >= 5)
+            bool temp = false;
+            if (pNumber >= maxObjet)
             {
-                pIsVictory = true;
+                temp = true;
             }
             else
             {
-                pIsVictory = false;
+                temp = false;
             }
+            isVictory = temp;
         }
 
         public void Draw(SpriteBatch spriteBatch)
