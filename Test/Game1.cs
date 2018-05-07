@@ -615,6 +615,7 @@ namespace Test
                     player.Active = false;
                 }
             }
+            spriteBatch.DrawString(victoryFont, "Nourriture : " + nombreItems.ToString() + "/" + objets[0].maxObjet.ToString(), new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width - 160, GraphicsDevice.Viewport.TitleSafeArea.Height - 64), Color.Black);
             spriteBatch.DrawString(victoryFont, "HP : " + player.Health.ToString(), new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width - 160, GraphicsDevice.Viewport.TitleSafeArea.Height - 120), Color.ForestGreen);
             if (isDefeat == true)
             {
